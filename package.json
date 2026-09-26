@@ -1,0 +1,43 @@
+{
+  "name": "@eveshipfit/images",
+  "version": "0.0.0-git",
+  "description": "EVE Online's icons, as WebP",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/EVEShipFit/images.git"
+  },
+  "author": "EVEShipFit Team <info@eveship.fit>",
+  "license": "SEE LICENSE IN LICENSE",
+  "type": "module",
+  "sideEffects": false,
+  "exports": {
+    ".": {
+      "types": "./lib/index.d.ts",
+      "default": "./lib/index.js"
+    },
+    "./dist/*": "./dist/*",
+    "./specs/*": "./specs/*"
+  },
+  "files": [
+    "lib",
+    "dist/images.dat",
+    "dist/images",
+    "specs/images.fbs",
+    "LICENSE.EVE"
+  ],
+  "scripts": {
+    "gen": "flatc --ts -o src/generated specs/images.fbs",
+    "build": "tsc",
+    "test": "node --test"
+  },
+  "dependencies": {
+    "flatbuffers": "^25.9.23"
+  },
+  "devDependencies": {
+    "@types/node": "^26.6.3",
+    "typescript": "^7.0.2"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

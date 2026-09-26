@@ -1,0 +1,66 @@
+namespace images;
+
+/// Stored as images/<hash in 16 lowercase hex digits>.webp. An unchanged image
+/// keeps its hash between releases.
+struct Image {
+    hash: uint64;
+}
+
+struct KeyedImage {
+    id: int32;
+    /// Index into Images.images.
+    image: uint16;
+}
+
+/// The background and overlay the client draws around blueprints, relics and reactions.
+enum Frame: uint8 {
+    None = 0,
+    Blueprint = 1,
+    Relic = 2,
+    Reaction = 3,
+}
+
+/// The overlay is drawn additively.
+struct FrameImages {
+    /// Index into Images.images.
+    background: uint16;
+    /// Index into Images.images.
+    overlay: uint16;
+}
+
+/// Drawn bottom to top: frame background, icon, frame overlay, marker.
+struct TypeIcon {
+    type_id: int32;
+    /// Index into Images.images.
+    icon: uint16;
+    /// Index into Images.meta_groups, or 255 for no marker.
+    marker: uint8;
+    frame: Frame;
+}
+
+table UiTexture {
+    /// The path below res:/ui/texture/, without extension.
+    name: string (key);
+    /// Index into Images.images.
+    image: uint16;
+}
+
+table Images {
+    images: [Image];
+    blueprint: FrameImages;
+    blueprint_copy: FrameImages;
+    relic: FrameImages;
+    reaction: FrameImages;
+    /// Sorted on type_id.
+    types: [TypeIcon];
+    /// Blueprints whose copy has its own icon, by type ID. Sorted on id.
+    blueprint_copies: [KeyedImage];
+    /// Sorted on id.
+    market_groups: [KeyedImage];
+    /// Sorted on id.
+    meta_groups: [KeyedImage];
+    ui_textures: [UiTexture];
+}
+
+root_type Images;
+file_identifier "ESFI";

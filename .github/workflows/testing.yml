@@ -1,0 +1,99 @@
+name: Testing
+
+on:
+  push:
+    branches:
+    - main
+  pull_request:
+    branches:
+    - main
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+permissions:
+  contents: read
+
+jobs:
+  testing:
+    name: Testing
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v7
+
+    - name: Install Go toolchain
+      uses: actions/setup-go@v7
+      with:
+        go-version-file: go.mod
+
+    - name: Install Node toolchain
+      uses: actions/setup-node@v7
+      with:
+        node-version: lts/*
+
+    - name: Install flatc
+      # Keep in sync with the flatbuffers version in go.mod.
+      run: |
+        curl -sSfL -o /tmp/flatc.zip https://github.com/google/flatbuffers/releases/download/v25.2.10/Linux.flatc.binary.g++-13.zip
+        sudo unzip -o /tmp/flatc.zip -d /usr/local/bin
+        flatc --version
+
+    - name: Install npm packages
+      run: |
+        npm ci
+
+    - name: Check generated code
+      run: |
+        go generate ./...
+        npm run gen
+        git diff --exit-code
+
+    - name: Check go.mod
+      run: |
+        go mod tidy -diff
+
+    - name: Check coding style
+      # flatc does not write gofmt-formatted code.
+      run: |
+        UNFORMATTED=$(gofmt -l cmd internal | grep -v '^internal/fbs/images/' || true)
+        if [ -n "${UNFORMATTED}" ]; then
+          echo "Not gofmt-formatted:"
+          echo "${UNFORMATTED}"
+          exit 1
+        fi
+
+    - name: Check lints
+      run: |
+        go vet ./...
+
+    - name: Run tests
+      run: |
+        go test ./...
+
+    - name: Install libwebp
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y --no-install-recommends libwebp-dev
+
+    # Converted images are kept between runs, so only new ones are fetched from EVE's CDN.
+    - name: Restore image cache
+      uses: actions/cache/restore@v6
+      with:
+        path: cache
+        key: images-cache-${{ github.run_id }}
+        restore-keys: |
+          images-cache-
+
+    - name: Build images
+      run: |
+        go run ./cmd/images build
+
+    - name: Check npm package
+      run: |
+        npm run build
+        npm test
+        npm pack --dry-run 2>&1 | tail -n 5
