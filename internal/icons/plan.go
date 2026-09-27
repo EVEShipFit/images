@@ -135,10 +135,9 @@ var uiFolders = []string{
 
 // UI textures from folders too large to take whole, like icons/, which holds every type's icon.
 var uiFiles = []string{
-	// The unfit, online/offline and show info buttons of a fitting slot.
-	"res:/ui/texture/icons/38_16_200.png",
-	"res:/ui/texture/icons/38_16_201.png",
-	"res:/ui/texture/icons/38_16_208.png",
+	"res:/ui/texture/icons/38_16_200.png", // Unfit Module and Remove Charge, on a fitting slot
+	"res:/ui/texture/icons/38_16_201.png", // Put Online and Put Offline, on a fitting slot
+	"res:/ui/texture/icons/38_16_208.png", // Show Info, on a fitting slot
 }
 
 type planner struct {
