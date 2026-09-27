@@ -13,6 +13,7 @@ type Data struct {
 	Groups        map[int32]*Group
 	MarketGroups  map[int32]*MarketGroup
 	MetaGroups    map[int32]*MetaGroup
+	Factions      map[int32]*Faction
 	Icons         map[int32]string
 	Graphics      map[int32]*Graphic
 	TypeLists     map[int32]*TypeList
@@ -42,6 +43,11 @@ type MarketGroup struct {
 type MetaGroup struct {
 	Key    int32 `json:"_key"`
 	IconID int32 `json:"iconID"`
+}
+
+type Faction struct {
+	Key      int32  `json:"_key"`
+	FlatLogo string `json:"flatLogo"`
 }
 
 type Graphic struct {

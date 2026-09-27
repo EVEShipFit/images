@@ -71,6 +71,11 @@ export class Images {
     return image === undefined ? undefined : this.#url(image);
   }
 
+  factionIcon(factionId: number): string | undefined {
+    const image = this.#keyed(this.#raw.factionsLength(), (index) => this.#raw.factions(index)!, factionId);
+    return image === undefined ? undefined : this.#url(image);
+  }
+
   /** By its path below res:/ui/texture/, without extension. */
   uiTexture(name: string): string | undefined {
     const texture = search(this.#raw.uiTexturesLength(), (index) => this.#raw.uiTextures(index)!, (entry: UiTexture) => compare(entry.name()!, name));

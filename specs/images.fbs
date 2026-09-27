@@ -60,6 +60,8 @@ table Images {
     /// Sorted on id.
     meta_groups: [KeyedImage];
     ui_textures: [UiTexture];
+    /// Sorted on id.
+    factions: [KeyedImage];
 }
 
 root_type Images;

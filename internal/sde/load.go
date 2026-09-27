@@ -23,6 +23,7 @@ func Load(filename string, build int32) (*Data, error) {
 		Groups:        map[int32]*Group{},
 		MarketGroups:  map[int32]*MarketGroup{},
 		MetaGroups:    map[int32]*MetaGroup{},
+		Factions:      map[int32]*Faction{},
 		Icons:         map[int32]string{},
 		Graphics:      map[int32]*Graphic{},
 		TypeLists:     map[int32]*TypeList{},
@@ -41,6 +42,11 @@ func Load(filename string, build int32) (*Data, error) {
 	}
 	if err := decode(&reader.Reader, "metaGroups.jsonl", func(entry *MetaGroup) {
 		data.MetaGroups[entry.Key] = entry
+	}); err != nil {
+		return nil, err
+	}
+	if err := decode(&reader.Reader, "factions.jsonl", func(entry *Faction) {
+		data.Factions[entry.Key] = entry
 	}); err != nil {
 		return nil, err
 	}
