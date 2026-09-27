@@ -13,6 +13,7 @@ const DAMAGE_CONTROL_II_BLUEPRINT = 2049;
 const INTACT_HULL_SECTION = 30752;
 const TECH_II = 2;
 const SHIPS = 4;
+const CALDARI_STATE = 500001;
 
 let images;
 
@@ -75,11 +76,13 @@ test("unknown things have no icon", () => {
   assert.equal(images.typeIcon(999999999), undefined);
   assert.equal(images.marketGroupIcon(-1), undefined);
   assert.equal(images.metaGroupIcon(-1), undefined);
+  assert.equal(images.factionIcon(-1), undefined);
   assert.equal(images.uiTexture("does/not/exist"), undefined);
 });
 
-test("groups and UI textures", () => {
+test("groups, factions and UI textures", () => {
   assertExists(images.marketGroupIcon(SHIPS));
+  assertExists(images.factionIcon(CALDARI_STATE));
   assertExists(images.uiTexture("classes/fitting/statsicons/armorhp"));
 });
 

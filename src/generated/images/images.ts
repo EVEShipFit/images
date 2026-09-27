@@ -125,8 +125,21 @@ uiTexturesLength():number {
   return offset ? this.bb!.__vector_len(this.bb_pos + offset) : 0;
 }
 
+/**
+ * Sorted on id.
+ */
+factions(index: number, obj?:KeyedImage):KeyedImage|null {
+  const offset = this.bb!.__offset(this.bb_pos, 24);
+  return offset ? (obj || new KeyedImage()).__init(this.bb!.__vector(this.bb_pos + offset) + index * 8, this.bb!) : null;
+}
+
+factionsLength():number {
+  const offset = this.bb!.__offset(this.bb_pos, 24);
+  return offset ? this.bb!.__vector_len(this.bb_pos + offset) : 0;
+}
+
 static startImages(builder:flatbuffers.Builder) {
-  builder.startObject(10);
+  builder.startObject(11);
 }
 
 static addImages(builder:flatbuffers.Builder, imagesOffset:flatbuffers.Offset) {
@@ -199,6 +212,14 @@ static createUiTexturesVector(builder:flatbuffers.Builder, data:flatbuffers.Offs
 
 static startUiTexturesVector(builder:flatbuffers.Builder, numElems:number) {
   builder.startVector(4, numElems, 4);
+}
+
+static addFactions(builder:flatbuffers.Builder, factionsOffset:flatbuffers.Offset) {
+  builder.addFieldOffset(10, factionsOffset, 0);
+}
+
+static startFactionsVector(builder:flatbuffers.Builder, numElems:number) {
+  builder.startVector(8, numElems, 4);
 }
 
 static endImages(builder:flatbuffers.Builder):flatbuffers.Offset {

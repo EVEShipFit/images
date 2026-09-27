@@ -35,6 +35,10 @@ func testData() (*sde.Data, res.Index) {
 			1: {Key: 1},
 			2: {Key: 2, IconID: 20},
 		},
+		Factions: map[int32]*sde.Faction{
+			500001: {Key: 500001, FlatLogo: "caldari_logo"},
+			500020: {Key: 500020},
+		},
 		Icons: map[int32]string{
 			0:  "res:/ui/texture/icons/question.png",
 			10: "res:/ui/texture/icons/module.png",
@@ -79,6 +83,7 @@ func testData() (*sde.Data, res.Index) {
 		"res:/ui/texture/icons/module.png",
 		"res:/ui/texture/icons/ship.png",
 		"res:/ui/texture/icons/t2.png",
+		"res:/ui/texture/eveicon/faction_logos/caldari_logo_64px.png",
 		"res:/dx9/model/ship/rifter/icons/100_64.png",
 		"res:/dx9/model/ship/rifter/icons/100_64_bp.png",
 		"res:/dx9/model/ship/rifter/icons/100_64_bpc.png",
@@ -148,6 +153,9 @@ func TestNewPlan(t *testing.T) {
 	}
 	if want := map[int32]Source{2: t2}; !reflect.DeepEqual(plan.MetaGroups, want) {
 		t.Errorf("meta groups = %+v, want %+v", plan.MetaGroups, want)
+	}
+	if want := map[int32]Source{500001: lossless("res:/ui/texture/eveicon/faction_logos/caldari_logo_64px.png")}; !reflect.DeepEqual(plan.Factions, want) {
+		t.Errorf("factions = %+v, want %+v", plan.Factions, want)
 	}
 	wantUI := map[string]Source{
 		"classes/fitting/statsicons/armorhp": lossless("res:/ui/texture/classes/fitting/statsicons/armorhp.png"),

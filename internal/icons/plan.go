@@ -76,6 +76,7 @@ type Plan struct {
 	MarketGroups map[int32]Source
 	// A meta group's icon is also the marker of its types.
 	MetaGroups map[int32]Source
+	Factions   map[int32]Source
 	UI         map[string]Source
 
 	Blueprint, BlueprintCopy, Relic, Reaction FrameLayers
@@ -108,6 +109,7 @@ func (p *Plan) Sources() []Source {
 	}
 	add(slices.Collect(maps.Values(p.MarketGroups))...)
 	add(slices.Collect(maps.Values(p.MetaGroups))...)
+	add(slices.Collect(maps.Values(p.Factions))...)
 	add(slices.Collect(maps.Values(p.UI))...)
 
 	return slices.SortedFunc(maps.Keys(seen), func(a, b Source) int {
@@ -162,6 +164,7 @@ func NewPlan(data *sde.Data, index res.Index) (*Plan, error) {
 		Types:        map[int32]TypeIcon{},
 		MarketGroups: map[int32]Source{},
 		MetaGroups:   map[int32]Source{},
+		Factions:     map[int32]Source{},
 		UI:           map[string]Source{},
 	}
 
@@ -202,6 +205,12 @@ func NewPlan(data *sde.Data, index res.Index) (*Plan, error) {
 	for id, group := range data.MarketGroups {
 		if source, ok := p.iconFile(group.IconID, Icon); ok {
 			plan.MarketGroups[id] = source
+		}
+	}
+
+	for id, faction := range data.Factions {
+		if source, ok := p.resource("res:/ui/texture/eveicon/faction_logos/"+faction.FlatLogo+"_64px.png", Lossless); ok {
+			plan.Factions[id] = source
 		}
 	}
 

@@ -237,8 +237,29 @@ func (rcv *Images) UiTexturesLength() int {
 	return 0
 }
 
+/// Sorted on id.
+func (rcv *Images) Factions(obj *KeyedImage, j int) bool {
+	o := flatbuffers.UOffsetT(rcv._tab.Offset(24))
+	if o != 0 {
+		x := rcv._tab.Vector(o)
+		x += flatbuffers.UOffsetT(j) * 8
+		obj.Init(rcv._tab.Bytes, x)
+		return true
+	}
+	return false
+}
+
+func (rcv *Images) FactionsLength() int {
+	o := flatbuffers.UOffsetT(rcv._tab.Offset(24))
+	if o != 0 {
+		return rcv._tab.VectorLen(o)
+	}
+	return 0
+}
+
+/// Sorted on id.
 func ImagesStart(builder *flatbuffers.Builder) {
-	builder.StartObject(10)
+	builder.StartObject(11)
 }
 func ImagesAddImages(builder *flatbuffers.Builder, images flatbuffers.UOffsetT) {
 	builder.PrependUOffsetTSlot(0, flatbuffers.UOffsetT(images), 0)
@@ -287,6 +308,12 @@ func ImagesAddUiTextures(builder *flatbuffers.Builder, uiTextures flatbuffers.UO
 }
 func ImagesStartUiTexturesVector(builder *flatbuffers.Builder, numElems int) flatbuffers.UOffsetT {
 	return builder.StartVector(4, numElems, 4)
+}
+func ImagesAddFactions(builder *flatbuffers.Builder, factions flatbuffers.UOffsetT) {
+	builder.PrependUOffsetTSlot(10, flatbuffers.UOffsetT(factions), 0)
+}
+func ImagesStartFactionsVector(builder *flatbuffers.Builder, numElems int) flatbuffers.UOffsetT {
+	return builder.StartVector(8, numElems, 4)
 }
 func ImagesEnd(builder *flatbuffers.Builder) flatbuffers.UOffsetT {
 	return builder.EndObject()

@@ -26,6 +26,7 @@ func testPlan() *icons.Plan {
 		},
 		MarketGroups:  map[int32]icons.Source{5: module},
 		MetaGroups:    map[int32]icons.Source{1: source("res:/t1.png", icons.Lossless), 2: source("res:/t2.png", icons.Lossless)},
+		Factions:      map[int32]icons.Source{500003: source("res:/amarr.png", icons.Lossless), 500001: source("res:/caldari.png", icons.Lossless)},
 		UI:            map[string]icons.Source{"statsicons/armorhp": source("res:/armorhp.png", icons.Lossless), "shared/b": module},
 		Blueprint:     frame("bpo"),
 		BlueprintCopy: frame("bpc"),
@@ -88,6 +89,15 @@ func TestEncode(t *testing.T) {
 	frame := root.BlueprintCopy(nil)
 	if hashOf(frame.Background()) != plan.BlueprintCopy.Background.Hash() || hashOf(frame.Overlay()) != plan.BlueprintCopy.Overlay.Hash() {
 		t.Error("blueprint copy frame points at the wrong images")
+	}
+
+	var faction images.KeyedImage
+	if root.FactionsLength() != 2 {
+		t.Fatalf("factions = %d, want 2", root.FactionsLength())
+	}
+	root.Factions(&faction, 0)
+	if faction.Id() != 500001 || hashOf(faction.Image()) != plan.Factions[500001].Hash() {
+		t.Errorf("first faction = %d, image %d, want the factions sorted on id", faction.Id(), faction.Image())
 	}
 
 	var texture images.UiTexture

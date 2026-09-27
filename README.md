@@ -7,7 +7,7 @@
 
 EVE Online's icons, as WebP.
 
-Every published type, market group and meta group has its icon here, together with the client's UI textures EVEShipFit uses.
+Every published type, market group, meta group and faction has its icon here, together with the client's UI textures EVEShipFit uses.
 Icons are not composited: a type has an icon, a frame and a marker, so the tech level or faction marker can be left off.
 
 ## Why?
@@ -47,7 +47,7 @@ Converted images are kept in `cache/`, so a next build only fetches what changed
 
 `build` writes to `dist/`:
 - `images/`, one WebP per image. A file is named after a hash of its source, so it keeps its name while it does not change.
-- `images.dat`, a flatbuffer, described in [specs/](specs/images.fbs), which tells which images every type, market group and meta group uses.
+- `images.dat`, a flatbuffer, described in [specs/](specs/images.fbs), which tells which images every type, market group, meta group and faction uses.
 
 Icons are scaled to 64 by 64 pixels, lossy at quality 90.
 Icons smaller than that, markers, frames and UI textures keep their own size, and are lossless.
@@ -82,6 +82,7 @@ images.typeIcon(2048, { marker: false }); // without the Tech II marker
 images.typeIcon(691, { copy: true }); // Rifter Blueprint, as a copy
 images.marketGroupIcon(4); // Ships
 images.metaGroupIcon(2); // Tech II
+images.factionIcon(500001); // Caldari State
 images.uiTexture("classes/fitting/statsicons/armorhp");
 ```
 
