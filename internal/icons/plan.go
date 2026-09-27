@@ -136,7 +136,7 @@ var uiFolders = []string{
 // UI textures from folders too large to take whole, like icons/, which holds every type's icon.
 var uiFiles = []string{
 	"res:/ui/texture/icons/38_16_200.png", // Unfit Module and Remove Charge, on a fitting slot
-	"res:/ui/texture/icons/38_16_201.png", // Put Online and Put Offline, on a fitting slot
+	"res:/ui/texture/icons/38_16_207.png", // Put Online and Put Offline, on a fitting slot
 	"res:/ui/texture/icons/38_16_208.png", // Show Info, on a fitting slot
 }
 
