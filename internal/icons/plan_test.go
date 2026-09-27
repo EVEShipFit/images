@@ -86,6 +86,8 @@ func testData() (*sde.Data, res.Index) {
 		"res:/ui/texture/classes/fitting/statsicons/armorhp.png",
 		"res:/ui/texture/classes/fitting/statsicons/armorhp.dds",
 		"res:/ui/texture/classes/other/thing.png",
+		"res:/ui/texture/icons/38_16_200.png",
+		"res:/ui/texture/icons/38_16_199.png",
 	} {
 		index[resource] = res.Entry{MD5: resource}
 	}
@@ -147,8 +149,12 @@ func TestNewPlan(t *testing.T) {
 	if want := map[int32]Source{2: t2}; !reflect.DeepEqual(plan.MetaGroups, want) {
 		t.Errorf("meta groups = %+v, want %+v", plan.MetaGroups, want)
 	}
-	if want := map[string]Source{"classes/fitting/statsicons/armorhp": lossless("res:/ui/texture/classes/fitting/statsicons/armorhp.png")}; !reflect.DeepEqual(plan.UI, want) {
-		t.Errorf("ui = %+v, want %+v", plan.UI, want)
+	wantUI := map[string]Source{
+		"classes/fitting/statsicons/armorhp": lossless("res:/ui/texture/classes/fitting/statsicons/armorhp.png"),
+		"icons/38_16_200":                    lossless("res:/ui/texture/icons/38_16_200.png"),
+	}
+	if !reflect.DeepEqual(plan.UI, wantUI) {
+		t.Errorf("ui = %+v, want %+v", plan.UI, wantUI)
 	}
 
 	wantFrame := FrameLayers{lossless("res:/ui/texture/icons/reaction.png"), lossless("res:/ui/texture/icons/bpo_overlay.png")}

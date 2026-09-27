@@ -133,6 +133,14 @@ var uiFolders = []string{
 	"res:/ui/texture/windowicons",
 }
 
+// UI textures from folders too large to take whole, like icons/, which holds every type's icon.
+var uiFiles = []string{
+	// The unfit, online/offline and show info buttons of a fitting slot.
+	"res:/ui/texture/icons/38_16_200.png",
+	"res:/ui/texture/icons/38_16_201.png",
+	"res:/ui/texture/icons/38_16_208.png",
+}
+
 type planner struct {
 	data       *sde.Data
 	index      res.Index
@@ -293,7 +301,7 @@ func (p *planner) resource(resource string, profile Profile) (Source, bool) {
 }
 
 func uiName(resource string) (string, bool) {
-	if path.Ext(resource) != ".png" || !slices.Contains(uiFolders, path.Dir(resource)) {
+	if path.Ext(resource) != ".png" || !(slices.Contains(uiFolders, path.Dir(resource)) || slices.Contains(uiFiles, resource)) {
 		return "", false
 	}
 	return strings.TrimSuffix(strings.TrimPrefix(resource, "res:/ui/texture/"), ".png"), true
