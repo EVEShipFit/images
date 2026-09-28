@@ -209,7 +209,7 @@ func NewPlan(data *sde.Data, index res.Index) (*Plan, error) {
 	}
 
 	for id, faction := range data.Factions {
-		if source, ok := p.resource("res:/ui/texture/eveicon/faction_logos/"+faction.FlatLogo+"_64px.png", Lossless); ok {
+		if source, ok := p.iconFile(faction.IconID, Icon); ok {
 			plan.Factions[id] = source
 		}
 	}

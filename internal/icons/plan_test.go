@@ -36,7 +36,7 @@ func testData() (*sde.Data, res.Index) {
 			2: {Key: 2, IconID: 20},
 		},
 		Factions: map[int32]*sde.Faction{
-			500001: {Key: 500001, FlatLogo: "caldari_logo"},
+			500001: {Key: 500001, IconID: 30},
 			500020: {Key: 500020},
 		},
 		Icons: map[int32]string{
@@ -45,6 +45,7 @@ func testData() (*sde.Data, res.Index) {
 			11: "res:/ui/texture/icons/ship.png",
 			12: "res:/ui/texture/icons/gone.png",
 			20: "res:/ui/texture/icons/t2.png",
+			30: "res:/ui/texture/icons/caldari.png",
 		},
 		Graphics: map[int32]*sde.Graphic{
 			100: {Key: 100, IconFolder: "res:/dx9/model/ship/rifter/icons"},
@@ -83,7 +84,7 @@ func testData() (*sde.Data, res.Index) {
 		"res:/ui/texture/icons/module.png",
 		"res:/ui/texture/icons/ship.png",
 		"res:/ui/texture/icons/t2.png",
-		"res:/ui/texture/eveicon/faction_logos/caldari_logo_64px.png",
+		"res:/ui/texture/icons/caldari.png",
 		"res:/dx9/model/ship/rifter/icons/100_64.png",
 		"res:/dx9/model/ship/rifter/icons/100_64_bp.png",
 		"res:/dx9/model/ship/rifter/icons/100_64_bpc.png",
@@ -154,7 +155,7 @@ func TestNewPlan(t *testing.T) {
 	if want := map[int32]Source{2: t2}; !reflect.DeepEqual(plan.MetaGroups, want) {
 		t.Errorf("meta groups = %+v, want %+v", plan.MetaGroups, want)
 	}
-	if want := map[int32]Source{500001: lossless("res:/ui/texture/eveicon/faction_logos/caldari_logo_64px.png")}; !reflect.DeepEqual(plan.Factions, want) {
+	if want := map[int32]Source{500001: icon("res:/ui/texture/icons/caldari.png")}; !reflect.DeepEqual(plan.Factions, want) {
 		t.Errorf("factions = %+v, want %+v", plan.Factions, want)
 	}
 	wantUI := map[string]Source{

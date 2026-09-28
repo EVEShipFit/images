@@ -46,8 +46,8 @@ type MetaGroup struct {
 }
 
 type Faction struct {
-	Key      int32  `json:"_key"`
-	FlatLogo string `json:"flatLogo"`
+	Key    int32 `json:"_key"`
+	IconID int32 `json:"iconID"`
 }
 
 type Graphic struct {
