@@ -128,6 +128,7 @@ const (
 var reactionGroups = []int32{1888, 1889, 1890, 4097}
 
 var uiFolders = []string{
+	"res:/ui/texture/classes/carrierbay",
 	"res:/ui/texture/classes/fitting",
 	"res:/ui/texture/classes/fitting/statsicons",
 	"res:/ui/texture/classes/radialmenu/fitting",
