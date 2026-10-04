@@ -14,6 +14,8 @@ const INTACT_HULL_SECTION = 30752;
 const TECH_II = 2;
 const SHIPS = 4;
 const CALDARI_STATE = 500001;
+const SHIELD_CAPACITY = 263;
+const HI_POWER = 12;
 
 let images;
 
@@ -77,12 +79,16 @@ test("unknown things have no icon", () => {
   assert.equal(images.marketGroupIcon(-1), undefined);
   assert.equal(images.metaGroupIcon(-1), undefined);
   assert.equal(images.factionIcon(-1), undefined);
+  assert.equal(images.attributeIcon(-1), undefined);
+  assert.equal(images.effectIcon(-1), undefined);
   assert.equal(images.uiTexture("does/not/exist"), undefined);
 });
 
-test("groups, factions and UI textures", () => {
+test("groups, factions, attributes, effects and UI textures", () => {
   assertExists(images.marketGroupIcon(SHIPS));
   assertExists(images.factionIcon(CALDARI_STATE));
+  assertExists(images.attributeIcon(SHIELD_CAPACITY));
+  assertExists(images.effectIcon(HI_POWER));
   assertExists(images.uiTexture("classes/fitting/statsicons/armorhp"));
 });
 

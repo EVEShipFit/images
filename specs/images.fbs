@@ -62,6 +62,10 @@ table Images {
     ui_textures: [UiTexture];
     /// Sorted on id.
     factions: [KeyedImage];
+    /// Dogma attributes, by attribute ID. Sorted on id.
+    attributes: [KeyedImage];
+    /// Dogma effects, by effect ID. Sorted on id.
+    effects: [KeyedImage];
 }
 
 root_type Images;

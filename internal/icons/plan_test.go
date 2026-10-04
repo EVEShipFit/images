@@ -39,6 +39,16 @@ func testData() (*sde.Data, res.Index) {
 			500001: {Key: 500001, IconID: 30},
 			500020: {Key: 500020},
 		},
+		DogmaAttributes: map[int32]*sde.DogmaAttribute{
+			9:  {Key: 9, IconID: 40, Published: true},
+			37: {Key: 37, Published: true},
+			48: {Key: 48, IconID: 12, Published: true},
+			49: {Key: 49, IconID: 40},
+		},
+		DogmaEffects: map[int32]*sde.DogmaEffect{
+			11: {Key: 11, IconID: 40, Published: true},
+			12: {Key: 12, IconID: 40},
+		},
 		Icons: map[int32]string{
 			0:  "res:/ui/texture/icons/question.png",
 			10: "res:/ui/texture/icons/module.png",
@@ -46,6 +56,7 @@ func testData() (*sde.Data, res.Index) {
 			12: "res:/ui/texture/icons/gone.png",
 			20: "res:/ui/texture/icons/t2.png",
 			30: "res:/ui/texture/icons/caldari.png",
+			40: "res:/ui/texture/icons/hp.png",
 		},
 		Graphics: map[int32]*sde.Graphic{
 			100: {Key: 100, IconFolder: "res:/dx9/model/ship/rifter/icons"},
@@ -85,6 +96,7 @@ func testData() (*sde.Data, res.Index) {
 		"res:/ui/texture/icons/ship.png",
 		"res:/ui/texture/icons/t2.png",
 		"res:/ui/texture/icons/caldari.png",
+		"res:/ui/texture/icons/hp.png",
 		"res:/dx9/model/ship/rifter/icons/100_64.png",
 		"res:/dx9/model/ship/rifter/icons/100_64_bp.png",
 		"res:/dx9/model/ship/rifter/icons/100_64_bpc.png",
@@ -157,6 +169,13 @@ func TestNewPlan(t *testing.T) {
 	}
 	if want := map[int32]Source{500001: icon("res:/ui/texture/icons/caldari.png")}; !reflect.DeepEqual(plan.Factions, want) {
 		t.Errorf("factions = %+v, want %+v", plan.Factions, want)
+	}
+	hp := lossless("res:/ui/texture/icons/hp.png")
+	if want := map[int32]Source{9: hp}; !reflect.DeepEqual(plan.Attributes, want) {
+		t.Errorf("attributes = %+v, want %+v", plan.Attributes, want)
+	}
+	if want := map[int32]Source{11: hp}; !reflect.DeepEqual(plan.Effects, want) {
+		t.Errorf("effects = %+v, want %+v", plan.Effects, want)
 	}
 	wantUI := map[string]Source{
 		"classes/fitting/statsicons/armorhp": lossless("res:/ui/texture/classes/fitting/statsicons/armorhp.png"),

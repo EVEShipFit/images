@@ -76,6 +76,16 @@ export class Images {
     return image === undefined ? undefined : this.#url(image);
   }
 
+  attributeIcon(attributeId: number): string | undefined {
+    const image = this.#keyed(this.#raw.attributesLength(), (index) => this.#raw.attributes(index)!, attributeId);
+    return image === undefined ? undefined : this.#url(image);
+  }
+
+  effectIcon(effectId: number): string | undefined {
+    const image = this.#keyed(this.#raw.effectsLength(), (index) => this.#raw.effects(index)!, effectId);
+    return image === undefined ? undefined : this.#url(image);
+  }
+
   /** By its path below res:/ui/texture/, without extension. */
   uiTexture(name: string): string | undefined {
     const texture = search(this.#raw.uiTexturesLength(), (index) => this.#raw.uiTextures(index)!, (entry: UiTexture) => compare(entry.name()!, name));

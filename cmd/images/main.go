@@ -108,8 +108,8 @@ func run(command string, args []string) error {
 		}
 		fmt.Printf("wrote %s (%d images, %.1f MiB)\n", *outDir, len(plan.Sources()), float64(size)/1024/1024)
 		fmt.Printf("wrote %s (%.1f KiB)\n", filename, float64(info.Size())/1024)
-		fmt.Printf("%d types, %d market groups, %d meta groups, %d factions, %d UI textures\n",
-			len(plan.Types), len(plan.MarketGroups), len(plan.MetaGroups), len(plan.Factions), len(plan.UI))
+		fmt.Printf("%d types, %d market groups, %d meta groups, %d factions, %d attributes, %d effects, %d UI textures\n",
+			len(plan.Types), len(plan.MarketGroups), len(plan.MetaGroups), len(plan.Factions), len(plan.Attributes), len(plan.Effects), len(plan.UI))
 		return nil
 
 	case "compare":
