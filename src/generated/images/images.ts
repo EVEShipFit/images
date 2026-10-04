@@ -138,8 +138,34 @@ factionsLength():number {
   return offset ? this.bb!.__vector_len(this.bb_pos + offset) : 0;
 }
 
+/**
+ * Dogma attributes, by attribute ID. Sorted on id.
+ */
+attributes(index: number, obj?:KeyedImage):KeyedImage|null {
+  const offset = this.bb!.__offset(this.bb_pos, 26);
+  return offset ? (obj || new KeyedImage()).__init(this.bb!.__vector(this.bb_pos + offset) + index * 8, this.bb!) : null;
+}
+
+attributesLength():number {
+  const offset = this.bb!.__offset(this.bb_pos, 26);
+  return offset ? this.bb!.__vector_len(this.bb_pos + offset) : 0;
+}
+
+/**
+ * Dogma effects, by effect ID. Sorted on id.
+ */
+effects(index: number, obj?:KeyedImage):KeyedImage|null {
+  const offset = this.bb!.__offset(this.bb_pos, 28);
+  return offset ? (obj || new KeyedImage()).__init(this.bb!.__vector(this.bb_pos + offset) + index * 8, this.bb!) : null;
+}
+
+effectsLength():number {
+  const offset = this.bb!.__offset(this.bb_pos, 28);
+  return offset ? this.bb!.__vector_len(this.bb_pos + offset) : 0;
+}
+
 static startImages(builder:flatbuffers.Builder) {
-  builder.startObject(11);
+  builder.startObject(13);
 }
 
 static addImages(builder:flatbuffers.Builder, imagesOffset:flatbuffers.Offset) {
@@ -219,6 +245,22 @@ static addFactions(builder:flatbuffers.Builder, factionsOffset:flatbuffers.Offse
 }
 
 static startFactionsVector(builder:flatbuffers.Builder, numElems:number) {
+  builder.startVector(8, numElems, 4);
+}
+
+static addAttributes(builder:flatbuffers.Builder, attributesOffset:flatbuffers.Offset) {
+  builder.addFieldOffset(11, attributesOffset, 0);
+}
+
+static startAttributesVector(builder:flatbuffers.Builder, numElems:number) {
+  builder.startVector(8, numElems, 4);
+}
+
+static addEffects(builder:flatbuffers.Builder, effectsOffset:flatbuffers.Offset) {
+  builder.addFieldOffset(12, effectsOffset, 0);
+}
+
+static startEffectsVector(builder:flatbuffers.Builder, numElems:number) {
   builder.startVector(8, numElems, 4);
 }
 

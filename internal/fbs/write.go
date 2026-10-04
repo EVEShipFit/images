@@ -108,6 +108,8 @@ func Encode(plan *icons.Plan) ([]byte, error) {
 	marketGroupsVector := keyedVector(builder, images.ImagesStartMarketGroupsVector, plan.MarketGroups, index)
 	metaGroupsVector := keyedVector(builder, images.ImagesStartMetaGroupsVector, plan.MetaGroups, index)
 	factionsVector := keyedVector(builder, images.ImagesStartFactionsVector, plan.Factions, index)
+	attributesVector := keyedVector(builder, images.ImagesStartAttributesVector, plan.Attributes, index)
+	effectsVector := keyedVector(builder, images.ImagesStartEffectsVector, plan.Effects, index)
 
 	frameImages := func(layers icons.FrameLayers) flatbuffers.UOffsetT {
 		return images.CreateFrameImages(builder, index(layers.Background), index(layers.Overlay))
@@ -125,6 +127,8 @@ func Encode(plan *icons.Plan) ([]byte, error) {
 	images.ImagesAddMetaGroups(builder, metaGroupsVector)
 	images.ImagesAddUiTextures(builder, uiVector)
 	images.ImagesAddFactions(builder, factionsVector)
+	images.ImagesAddAttributes(builder, attributesVector)
+	images.ImagesAddEffects(builder, effectsVector)
 	builder.FinishWithFileIdentifier(images.ImagesEnd(builder), []byte("ESFI"))
 
 	return builder.FinishedBytes(), nil

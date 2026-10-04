@@ -18,16 +18,18 @@ func Load(filename string, build int32) (*Data, error) {
 	defer reader.Close()
 
 	data := &Data{
-		BuildNumber:   build,
-		Types:         map[int32]*Type{},
-		Groups:        map[int32]*Group{},
-		MarketGroups:  map[int32]*MarketGroup{},
-		MetaGroups:    map[int32]*MetaGroup{},
-		Factions:      map[int32]*Faction{},
-		Icons:         map[int32]string{},
-		Graphics:      map[int32]*Graphic{},
-		TypeLists:     map[int32]*TypeList{},
-		SkinMaterials: map[int32]int32{},
+		BuildNumber:     build,
+		Types:           map[int32]*Type{},
+		Groups:          map[int32]*Group{},
+		MarketGroups:    map[int32]*MarketGroup{},
+		MetaGroups:      map[int32]*MetaGroup{},
+		Factions:        map[int32]*Faction{},
+		DogmaAttributes: map[int32]*DogmaAttribute{},
+		DogmaEffects:    map[int32]*DogmaEffect{},
+		Icons:           map[int32]string{},
+		Graphics:        map[int32]*Graphic{},
+		TypeLists:       map[int32]*TypeList{},
+		SkinMaterials:   map[int32]int32{},
 	}
 
 	if err := decode(&reader.Reader, "groups.jsonl", func(entry *Group) {
@@ -47,6 +49,16 @@ func Load(filename string, build int32) (*Data, error) {
 	}
 	if err := decode(&reader.Reader, "factions.jsonl", func(entry *Faction) {
 		data.Factions[entry.Key] = entry
+	}); err != nil {
+		return nil, err
+	}
+	if err := decode(&reader.Reader, "dogmaAttributes.jsonl", func(entry *DogmaAttribute) {
+		data.DogmaAttributes[entry.Key] = entry
+	}); err != nil {
+		return nil, err
+	}
+	if err := decode(&reader.Reader, "dogmaEffects.jsonl", func(entry *DogmaEffect) {
+		data.DogmaEffects[entry.Key] = entry
 	}); err != nil {
 		return nil, err
 	}

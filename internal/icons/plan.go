@@ -77,6 +77,8 @@ type Plan struct {
 	// A meta group's icon is also the marker of its types.
 	MetaGroups map[int32]Source
 	Factions   map[int32]Source
+	Attributes map[int32]Source
+	Effects    map[int32]Source
 	UI         map[string]Source
 
 	Blueprint, BlueprintCopy, Relic, Reaction FrameLayers
@@ -110,6 +112,8 @@ func (p *Plan) Sources() []Source {
 	add(slices.Collect(maps.Values(p.MarketGroups))...)
 	add(slices.Collect(maps.Values(p.MetaGroups))...)
 	add(slices.Collect(maps.Values(p.Factions))...)
+	add(slices.Collect(maps.Values(p.Attributes))...)
+	add(slices.Collect(maps.Values(p.Effects))...)
 	add(slices.Collect(maps.Values(p.UI))...)
 
 	return slices.SortedFunc(maps.Keys(seen), func(a, b Source) int {
@@ -169,6 +173,8 @@ func NewPlan(data *sde.Data, index res.Index) (*Plan, error) {
 		MarketGroups: map[int32]Source{},
 		MetaGroups:   map[int32]Source{},
 		Factions:     map[int32]Source{},
+		Attributes:   map[int32]Source{},
+		Effects:      map[int32]Source{},
 		UI:           map[string]Source{},
 	}
 
@@ -215,6 +221,24 @@ func NewPlan(data *sde.Data, index res.Index) (*Plan, error) {
 	for id, faction := range data.Factions {
 		if source, ok := p.iconFile(faction.IconID, Icon); ok {
 			plan.Factions[id] = source
+		}
+	}
+
+	for id, attribute := range data.DogmaAttributes {
+		if !attribute.Published {
+			continue
+		}
+		if source, ok := p.iconFile(attribute.IconID, Lossless); ok {
+			plan.Attributes[id] = source
+		}
+	}
+
+	for id, effect := range data.DogmaEffects {
+		if !effect.Published {
+			continue
+		}
+		if source, ok := p.iconFile(effect.IconID, Lossless); ok {
+			plan.Effects[id] = source
 		}
 	}
 

@@ -8,16 +8,18 @@ import (
 
 // Data holds the parts of the SDE that decide which image a type gets.
 type Data struct {
-	BuildNumber   int32
-	Types         map[int32]*Type
-	Groups        map[int32]*Group
-	MarketGroups  map[int32]*MarketGroup
-	MetaGroups    map[int32]*MetaGroup
-	Factions      map[int32]*Faction
-	Icons         map[int32]string
-	Graphics      map[int32]*Graphic
-	TypeLists     map[int32]*TypeList
-	SkinMaterials map[int32]int32
+	BuildNumber     int32
+	Types           map[int32]*Type
+	Groups          map[int32]*Group
+	MarketGroups    map[int32]*MarketGroup
+	MetaGroups      map[int32]*MetaGroup
+	Factions        map[int32]*Faction
+	DogmaAttributes map[int32]*DogmaAttribute
+	DogmaEffects    map[int32]*DogmaEffect
+	Icons           map[int32]string
+	Graphics        map[int32]*Graphic
+	TypeLists       map[int32]*TypeList
+	SkinMaterials   map[int32]int32
 }
 
 type Type struct {
@@ -48,6 +50,18 @@ type MetaGroup struct {
 type Faction struct {
 	Key    int32 `json:"_key"`
 	IconID int32 `json:"iconID"`
+}
+
+type DogmaAttribute struct {
+	Key       int32 `json:"_key"`
+	IconID    int32 `json:"iconID"`
+	Published bool  `json:"published"`
+}
+
+type DogmaEffect struct {
+	Key       int32 `json:"_key"`
+	IconID    int32 `json:"iconID"`
+	Published bool  `json:"published"`
 }
 
 type Graphic struct {

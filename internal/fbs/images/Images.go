@@ -258,8 +258,50 @@ func (rcv *Images) FactionsLength() int {
 }
 
 /// Sorted on id.
+/// Dogma attributes, by attribute ID. Sorted on id.
+func (rcv *Images) Attributes(obj *KeyedImage, j int) bool {
+	o := flatbuffers.UOffsetT(rcv._tab.Offset(26))
+	if o != 0 {
+		x := rcv._tab.Vector(o)
+		x += flatbuffers.UOffsetT(j) * 8
+		obj.Init(rcv._tab.Bytes, x)
+		return true
+	}
+	return false
+}
+
+func (rcv *Images) AttributesLength() int {
+	o := flatbuffers.UOffsetT(rcv._tab.Offset(26))
+	if o != 0 {
+		return rcv._tab.VectorLen(o)
+	}
+	return 0
+}
+
+/// Dogma attributes, by attribute ID. Sorted on id.
+/// Dogma effects, by effect ID. Sorted on id.
+func (rcv *Images) Effects(obj *KeyedImage, j int) bool {
+	o := flatbuffers.UOffsetT(rcv._tab.Offset(28))
+	if o != 0 {
+		x := rcv._tab.Vector(o)
+		x += flatbuffers.UOffsetT(j) * 8
+		obj.Init(rcv._tab.Bytes, x)
+		return true
+	}
+	return false
+}
+
+func (rcv *Images) EffectsLength() int {
+	o := flatbuffers.UOffsetT(rcv._tab.Offset(28))
+	if o != 0 {
+		return rcv._tab.VectorLen(o)
+	}
+	return 0
+}
+
+/// Dogma effects, by effect ID. Sorted on id.
 func ImagesStart(builder *flatbuffers.Builder) {
-	builder.StartObject(11)
+	builder.StartObject(13)
 }
 func ImagesAddImages(builder *flatbuffers.Builder, images flatbuffers.UOffsetT) {
 	builder.PrependUOffsetTSlot(0, flatbuffers.UOffsetT(images), 0)
@@ -313,6 +355,18 @@ func ImagesAddFactions(builder *flatbuffers.Builder, factions flatbuffers.UOffse
 	builder.PrependUOffsetTSlot(10, flatbuffers.UOffsetT(factions), 0)
 }
 func ImagesStartFactionsVector(builder *flatbuffers.Builder, numElems int) flatbuffers.UOffsetT {
+	return builder.StartVector(8, numElems, 4)
+}
+func ImagesAddAttributes(builder *flatbuffers.Builder, attributes flatbuffers.UOffsetT) {
+	builder.PrependUOffsetTSlot(11, flatbuffers.UOffsetT(attributes), 0)
+}
+func ImagesStartAttributesVector(builder *flatbuffers.Builder, numElems int) flatbuffers.UOffsetT {
+	return builder.StartVector(8, numElems, 4)
+}
+func ImagesAddEffects(builder *flatbuffers.Builder, effects flatbuffers.UOffsetT) {
+	builder.PrependUOffsetTSlot(12, flatbuffers.UOffsetT(effects), 0)
+}
+func ImagesStartEffectsVector(builder *flatbuffers.Builder, numElems int) flatbuffers.UOffsetT {
 	return builder.StartVector(8, numElems, 4)
 }
 func ImagesEnd(builder *flatbuffers.Builder) flatbuffers.UOffsetT {

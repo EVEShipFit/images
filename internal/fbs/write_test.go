@@ -27,6 +27,8 @@ func testPlan() *icons.Plan {
 		MarketGroups:  map[int32]icons.Source{5: module},
 		MetaGroups:    map[int32]icons.Source{1: source("res:/t1.png", icons.Lossless), 2: source("res:/t2.png", icons.Lossless)},
 		Factions:      map[int32]icons.Source{500003: source("res:/amarr.png", icons.Lossless), 500001: source("res:/caldari.png", icons.Lossless)},
+		Attributes:    map[int32]icons.Source{263: source("res:/shield.png", icons.Lossless), 9: source("res:/hp.png", icons.Lossless)},
+		Effects:       map[int32]icons.Source{11: source("res:/hp.png", icons.Lossless)},
 		UI:            map[string]icons.Source{"statsicons/armorhp": source("res:/armorhp.png", icons.Lossless), "shared/b": module},
 		Blueprint:     frame("bpo"),
 		BlueprintCopy: frame("bpc"),
@@ -98,6 +100,24 @@ func TestEncode(t *testing.T) {
 	root.Factions(&faction, 0)
 	if faction.Id() != 500001 || hashOf(faction.Image()) != plan.Factions[500001].Hash() {
 		t.Errorf("first faction = %d, image %d, want the factions sorted on id", faction.Id(), faction.Image())
+	}
+
+	var attribute images.KeyedImage
+	if root.AttributesLength() != 2 {
+		t.Fatalf("attributes = %d, want 2", root.AttributesLength())
+	}
+	root.Attributes(&attribute, 0)
+	if attribute.Id() != 9 || hashOf(attribute.Image()) != plan.Attributes[9].Hash() {
+		t.Errorf("first attribute = %d, image %d, want the attributes sorted on id", attribute.Id(), attribute.Image())
+	}
+
+	var effect images.KeyedImage
+	if root.EffectsLength() != 1 {
+		t.Fatalf("effects = %d, want 1", root.EffectsLength())
+	}
+	root.Effects(&effect, 0)
+	if effect.Id() != 11 || effect.Image() != attribute.Image() {
+		t.Errorf("effect = %d, image %d, want 11 sharing the image of attribute 9", effect.Id(), effect.Image())
 	}
 
 	var texture images.UiTexture
