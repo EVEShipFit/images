@@ -145,6 +145,9 @@ var uiFiles = []string{
 	"res:/ui/texture/icons/38_16_200.png", // Unfit Module and Remove Charge, on a fitting slot
 	"res:/ui/texture/icons/38_16_207.png", // Put Online and Put Offline, on a fitting slot
 	"res:/ui/texture/icons/38_16_208.png", // Show Info, on a fitting slot
+	"res:/ui/texture/icons/defence.png",   // Defense Mode, of a ship with modes
+	"res:/ui/texture/icons/speed.png",     // Propulsion Mode, of a ship with modes
+	"res:/ui/texture/icons/target.png",    // Sharpshooter Mode, of a ship with modes
 }
 
 type planner struct {
