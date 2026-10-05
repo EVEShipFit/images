@@ -139,6 +139,7 @@ var uiFolders = []string{
 	"res:/ui/texture/classes/shipui",
 	"res:/ui/texture/classes/shipui/ewarbar",
 	"res:/ui/texture/classes/shipui/fighters",
+	"res:/ui/texture/eveicon/control_icons",
 	"res:/ui/texture/eveicon/system_icons",
 	"res:/ui/texture/shared",
 	"res:/ui/texture/windowicons",
