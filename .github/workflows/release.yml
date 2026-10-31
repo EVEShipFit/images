@@ -135,6 +135,8 @@ jobs:
     permissions:
       contents: write
       id-token: write
+    outputs:
+      version: ${{ steps.version.outputs.version }}
     env:
       TAG: ${{ needs.check.outputs.tag || github.ref_name }}
 
@@ -204,6 +206,28 @@ jobs:
           exit 0
         fi
         npm publish
+
+  rebuild:
+    name: Rebuild eveship.fit
+    needs: publish
+    if: ${{ !cancelled() && needs.publish.result == 'success' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+
+    steps:
+    - name: Wait for NPM
+      env:
+        VERSION: ${{ needs.publish.outputs.version }}
+      run: |
+        for _ in $(seq 30); do
+          if curl -sSf -H 'Accept: application/vnd.npm.install-v1+json' https://registry.npmjs.org/@eveshipfit/images \
+              | jq -e --arg v "${VERSION}" '.versions[$v]' > /dev/null; then
+            exit 0
+          fi
+          sleep 30
+        done
+        echo "::error::@eveshipfit/images@${VERSION} did not show up on NPM"
+        exit 1
 
     - name: Create token for eveship.fit
       id: token
