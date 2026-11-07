@@ -40,6 +40,7 @@ go run ./cmd/images compare old/    # tell whether dist/ differs from old/
 
 `build` downloads the SDE when there is none yet, and uses the one on disk otherwise.
 Use `--build <number>` to pin a version; the client shares its build number with the SDE.
+Use `--server singularity` to take the SDE and client from Singularity.
 
 Converted images are kept in `cache/`, so a next build only fetches what changed in EVE.
 

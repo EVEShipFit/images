@@ -22,6 +22,7 @@ var (
 	sdeDir   = flag.String("sde-dir", "sde", "directory the SDE is downloaded to")
 	cacheDir = flag.String("cache-dir", "cache", "directory the resource index and converted images are kept in")
 	outDir   = flag.String("out", "dist", "directory to write to")
+	server   = flag.String("server", "tranquility", "server the SDE is from: tranquility or singularity")
 	buildNum = flag.Int("build", 0, "SDE and client build to use; defaults to the latest")
 	jobs     = flag.Int("jobs", 2*runtime.NumCPU(), "images to fetch and convert at the same time")
 )
@@ -141,14 +142,14 @@ func run(command string, args []string) error {
 func download() (string, int32, error) {
 	build := int32(*buildNum)
 	if build == 0 {
-		latest, err := sde.LatestBuild()
+		latest, err := sde.LatestBuild(*server)
 		if err != nil {
 			return "", 0, err
 		}
 		build = latest
 	}
 
-	filename, err := sde.Download(*sdeDir, build)
+	filename, err := sde.Download(*sdeDir, *server, build)
 	if err != nil {
 		return "", 0, err
 	}
@@ -173,7 +174,7 @@ func load() (*sde.Data, error) {
 		return sde.Load(filename, downloaded)
 	}
 
-	filename, err := sde.Download(*sdeDir, build)
+	filename, err := sde.Download(*sdeDir, *server, build)
 	if err != nil {
 		return nil, err
 	}
